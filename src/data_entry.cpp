@@ -1,3 +1,4 @@
+#include "search.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -184,11 +185,12 @@ string select_option()
     cout << "Select an option" << '\n';
     cout << "1. Retrieve all records" << '\n';
     cout << "2. Enter records" << '\n';
-    cout << "3. Quit" << '\n';
+	cout << "3. Search for records" << '\n';
+    cout << "4. Quit" << '\n';
     cin >> x;
     
-	while (x != "1" && x != "2" && x != "3") {		
-        cout << "Invalid entry. Enter 1, 2 or 3:" << '\n';
+	while (x != "1" && x != "2" && x != "3" && x != "4") {		
+        cout << "Invalid entry. Enter 1, 2, 3 or 4:" << '\n';
         cin >> x;
     }
 	
@@ -214,6 +216,9 @@ int main()
         else if (x == "2") {
             records = enter_record();
             save_record(records);
+        }
+        else if (x == "3") {
+            search();
         }
         else {
             return 0;
