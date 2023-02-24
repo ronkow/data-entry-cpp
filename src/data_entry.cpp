@@ -17,8 +17,6 @@ using namespace std;
 void retrieve_all_data(string filepath)
 {
 	string line, token;
-	
-	
 	ifstream myfile(DATA_PATH);
 	
 	cout << '\n'; 
@@ -57,7 +55,6 @@ void save_record(vector<string> records)
 		for (auto record: records){
             myfile << record << '\n';
 		}
-			
 		myfile.close();
 	}	
 }
@@ -70,9 +67,9 @@ string enter_name()
 {
 	string name;
 	
-	cout << '\n';
 	cout << "Enter the name:" << '\n';
     cin >> name;
+	
 	return name;
 }
 
@@ -80,14 +77,15 @@ string enter_name()
 string enter_gender()
 {
 	string gender;
+	
 	cout << "Enter the gender:" << '\n';
     cin >> gender;
 	
 	transform(gender.begin(), gender.end(), gender.begin(), ::toupper);
 	
 	while (gender != "M" && gender != "F") {
-	cout << "Invalid entry. Enter a gender m or f:" << '\n';
-	cin >> gender;
+	    cout << "Invalid entry. Enter a gender m or f:" << '\n';
+	    cin >> gender;
 	}
 	
 	return gender;
@@ -98,44 +96,44 @@ string enter_birthyear()
 {
 	string year;
 	int y;
+	
 	cout << "Enter the birth year:" << '\n';
     cin >> year;
+	stringstream(year) >> y;
 	
-	stringstream(year) >> y;
 	while (y < 1960 || y > 2022){
-	cout << "Invalid entry. Enter a year from 1960 to 2022:" << '\n';
-	cin >> year;
-	stringstream(year) >> y;
+	    cout << "Invalid entry. Enter a year from 1960 to 2022:" << '\n';
+	    cin >> year;
+	    stringstream(year) >> y;
 	}
+	
 	return year;
 }
 
 
-char enter_another_record()
+string enter_another_record()
 {
 	string yes_no;
-	char y_n;
-	
+		
 	cout << '\n';
 	cout << "Do you want to enter another record? (y/n)" << '\n';
 	cin >> yes_no;
+	cout << '\n';
     
 	while (yes_no != "y" && yes_no != "Y" && yes_no != "n" && yes_no != "N") {
 	    cout << "Invalid entry. Enter y or n:" << '\n';
 		cin >> yes_no;
 	}
 	
-	stringstream(yes_no) >> y_n;
-	return y_n;
+	return yes_no;
 }
 
 
 // TODO: VALIDATE NAME
 vector<string> enter_record()
 {
-	string name, gender, birthyear, record;
+	string name, gender, birthyear, record, yes_no;
     vector<string> records;
-	char y_n;
 		
 	cout << '\n';
 	cout << "DATA ENTRY" << '\n';
@@ -148,9 +146,9 @@ vector<string> enter_record()
 	record = name + ',' + gender + ',' + birthyear;
     records.push_back(record);
 
-	y_n = enter_another_record();
+	yes_no = enter_another_record();
 	
-	while (y_n == 'y' || y_n == 'Y') {
+	while (yes_no == "y" || yes_no == "Y") {
 	   	name = enter_name();
 	    gender = enter_gender();
 	    birthyear = enter_birthyear();
@@ -158,7 +156,7 @@ vector<string> enter_record()
 	    record = name + ',' + gender + ',' + birthyear;
 		records.push_back(record);
 		
-		y_n = enter_another_record();
+		yes_no = enter_another_record();
 	}
 	
     cout << '\n';	
@@ -176,10 +174,9 @@ vector<string> enter_record()
 // USER OPTIONS
 //-----------------
 
-int select_option()
+string select_option()
 {
     string  x;
-	int x_int;
 	
 	cout << '\n';
     cout << "STUDENT DATASTORE" << '\n';
@@ -195,8 +192,7 @@ int select_option()
         cin >> x;
     }
 	
-	stringstream(x) >> x_int;
-    return x_int;
+    return x;
 }
 
 //------------------
@@ -205,22 +201,21 @@ int select_option()
 
 int main() 
 {
-    int x;
+    string x;
 	vector<string> records;
 
     while (true) {
         
         x = select_option();
 
-        if (x == 1) {
+        if (x == "1") {
             retrieve_all_data(DATA_PATH);
         }
-        else if (x == 2) {
+        else if (x == "2") {
             records = enter_record();
             save_record(records);
         }
         else {
-            cout << "quit" << '\n';
             return 0;
         }        
     }
